@@ -27,7 +27,7 @@ function CheckJsonArguments(request, response, next){
   const { title, url, techs } = request.body;
 
   if(!title && !url && !techs) return response.status(400).json({error:"Nothing to do: there is no valid arguments! Possibles: title(string), url(string), techs(array of strings)"});
-
+  
   return next();
 }
 
@@ -87,6 +87,8 @@ app.post("/repositories/:id/like", CheckID, (request, response) => {
   const { id } = request.params;
 
   var index = repositories.findIndex(a=>a.id == id);
+
+  if(index < 0) return response.status(404).json({erro: "Repository not found."});
 
   repositories[index].likes++;
 
