@@ -29,8 +29,9 @@ function CheckID(request, response, next){
 }
 
 function CheckJsonArguments(request, response, next){
-  const { title, url, techs } = request.body;
+  const { title, url, techs, likes } = request.body;
 
+  if(likes) return response.status(400).json({likes: 0});
   if(!title && !url && !techs) return response.status(400).json({error:"Nothing to do: there is no valid arguments! Possibles: title(string), url(string), techs(array of strings)"});
   
   return next();
