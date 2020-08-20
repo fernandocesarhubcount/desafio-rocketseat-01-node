@@ -10,6 +10,11 @@ app.use(cors());
 
 const repositories = [];
 
+// Aux
+function UpdateLikes(repository){
+  repository.likes++;
+}
+
 // Middlewares
 function CheckID(request, response, next){
   const { id } = request.params;
@@ -88,9 +93,7 @@ app.post("/repositories/:id/like", CheckID, (request, response) => {
 
   var index = repositories.findIndex(a=>a.id == id);
 
-  if(index < 0) return response.status(404).json({erro: "Repository not found."});
-
-  repositories[index].likes++;
+  UpdateLikes(repositories[index]);
 
   return response.json(repositories[index]);
 });
